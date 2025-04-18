@@ -45,11 +45,18 @@ stages:
   - name: install tailscale # Install tailscale
     type: shell
     commands: 
-    - apt install curl -y # Just in case
     - curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
     - curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list | tee /etc/apt/sources.list.d/tailscale.list
     - apt-get update --allow-insecure-repositories
     - apt-get install tailscale --allow-unauthenticated -y
+
+  - name: install cloudflare warp
+    type: shell
+    commands:
+    - curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+    - echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+    - apt-get update
+    - apt-get install cloudflare-warp -y
 
   - name: set-image-name-abroot
     type: includes
