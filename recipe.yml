@@ -42,6 +42,14 @@ stages:
       - https://raw.githubusercontent.com/Vanilla-OS/dev-image/main/modules/05-go.yml # Sample full URL remote module
 
   # Put your custom actions above this comment
+  - name: install tailscale # Install tailscale
+    type: shell
+    commands: 
+    - apt install curl -y # Just in case
+    - curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+    - curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list | tee /etc/apt/sources.list.d/tailscale.list
+    - apt-get update --allow-insecure-repositories
+    - apt-get install tailscale --allow-unauthenticated -y
 
   - name: set-image-name-abroot
     type: includes
