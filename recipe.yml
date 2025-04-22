@@ -58,12 +58,6 @@ stages:
     - apt-get update
     - apt-get install cloudflare-warp -y
 
-  - name: install sunshine
-    type: apt
-    source:
-      packages:
-      - sunshine
-
   - name: set-image-name-abroot
     type: includes
     includes:
