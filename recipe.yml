@@ -58,6 +58,11 @@ stages:
     - apt-get update
     - apt-get install cloudflare-warp -y
 
+  - name: pseudo-miniupnp-downgrade #Sorta downgrades the miniupnp package for sunshine to run
+    type: shell
+    commands:
+    - ln -s /usr/lib/x86_64-linux-gnu/libminiupnpc.so.18 /usr/lib/x86_64-linux-gnu/libminiupnpc.so.17
+
   - name: set-image-name-abroot
     type: includes
     includes:
